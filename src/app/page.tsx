@@ -1,65 +1,115 @@
-import Image from "next/image";
+import {
+  DollarSign,
+  TrendingUp,
+  TrendingDown,
+  Wallet,
+} from "lucide-react";
+import { fetchDashboardData } from "@/lib/sheets";
+import {
+  calcularResumoMensal,
+  calcularResumoCategorias,
+  formatBRL,
+  formatDateTimeBR,
+} from "@/lib/analytics";
+import { KpiCard } from "@/components/KpiCard";
+import { FluxoChart } from "@/components/FluxoChart";
+import { CategoriasChart } from "@/components/CategoriasChart";
+import { SaldosBanco } from "@/components/SaldosBanco";
+import { TabelaMovimentacoes } from "@/components/TabelaMovimentacoes";
+import { RefreshButton } from "@/components/RefreshButton";
 
-export default function Home() {
+export const revalidate = 86400;
+
+export default async function Home() {
+  const data = await fetchDashboardData();
+
+  const resumoMensal = calcularResumoMensal(data.movimentacoes);
+  const categoriasEntrada = calcularResumoCategorias(data.movimentacoes, "Entrada");
+  const categoriasSaida = calcularResumoCategorias(data.movimentacoes, "Saída");
+
+  const mesAtual = resumoMensal.at(-1);
+  const totalSaldo = data.saldos.reduce((acc, s) => acc + s.saldo, 0);
+
+  const totalEntradas = data.movimentacoes
+    .filter((m) => m.movimento === "Entrada")
+    .reduce((acc, m) => acc + m.valorRecebido, 0);
+  const totalSaidas = data.movimentacoes
+    .filter((m) => m.movimento === "Saída")
+    .reduce((acc, m) => acc + m.valorRecebido, 0);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-6">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Lille Finance
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-sm text-muted">
+            Fluxo de caixa em tempo real
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <RefreshButton />
+      </header>
+
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <KpiCard
+          title="Saldo em Contas"
+          value={formatBRL(totalSaldo)}
+          icon={<Wallet size={20} />}
+          trend="neutral"
+          subtitle={`${data.saldos.length} contas ativas`}
+        />
+        <KpiCard
+          title={`Entradas ${mesAtual?.mes || ""}`}
+          value={formatBRL(mesAtual?.entradas || 0)}
+          icon={<TrendingUp size={20} />}
+          trend="positive"
+          subtitle={`Total geral: ${formatBRL(totalEntradas)}`}
+        />
+        <KpiCard
+          title={`Saidas ${mesAtual?.mes || ""}`}
+          value={formatBRL(mesAtual?.saidas || 0)}
+          icon={<TrendingDown size={20} />}
+          trend="negative"
+          subtitle={`Total geral: ${formatBRL(totalSaidas)}`}
+        />
+        <KpiCard
+          title={`Resultado ${mesAtual?.mes || ""}`}
+          value={formatBRL(mesAtual?.resultado || 0)}
+          icon={<DollarSign size={20} />}
+          trend={
+            (mesAtual?.resultado || 0) >= 0 ? "positive" : "negative"
+          }
+          subtitle="Entradas - Saidas do mes"
+        />
+      </section>
+
+      <section className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <FluxoChart data={resumoMensal} />
         </div>
-      </main>
+        <SaldosBanco saldos={data.saldos} />
+      </section>
+
+      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <CategoriasChart
+          data={categoriasEntrada}
+          title="Categorias de Entrada"
+        />
+        <CategoriasChart
+          data={categoriasSaida}
+          title="Categorias de Saida"
+        />
+      </section>
+
+      <section>
+        <TabelaMovimentacoes movimentacoes={data.movimentacoes} />
+      </section>
+
+      <footer className="border-t border-card-border py-4 text-center text-xs text-muted">
+        Ultima atualizacao: {formatDateTimeBR(data.lastUpdated)} ·
+        Dados atualizados automaticamente 1x ao dia · Lille Consulting
+      </footer>
     </div>
   );
 }
