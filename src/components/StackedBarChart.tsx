@@ -31,8 +31,8 @@ function CustomTooltip({
 }) {
   if (!active || !payload) return null;
   return (
-    <div className="rounded-lg border border-border bg-white px-3 py-2.5 shadow-md">
-      <p className="mb-1 text-[11px] font-semibold text-text">{label}</p>
+    <div className="card-static px-4 py-3" style={{ boxShadow: "var(--shadow-lg)" }}>
+      <p className="mb-1.5 text-xs font-bold text-text">{label}</p>
       {payload.map((entry) => (
         <p key={entry.dataKey} className="text-[11px]" style={{ color: entry.color }}>
           {entry.name}: {formatBRL(entry.value)}
@@ -46,22 +46,22 @@ export function StackedBarChart({ data, title, colors, labels }: StackedBarChart
   const chartData = data.map((d) => ({ ...d, mesLabel: mesLabel(d.mes) }));
 
   return (
-    <div className="rounded-xl bg-white border border-border">
-      <div className="px-5 py-4 border-b border-border-light">
-        <h3 className="text-[11px] font-semibold text-text-secondary uppercase tracking-wider">{title}</h3>
+    <div className="card-static overflow-hidden">
+      <div className="px-6 pt-5 pb-2">
+        <h3 className="text-xs font-bold text-text-3 uppercase tracking-wider">{title}</h3>
       </div>
-      <div className="px-4 pb-4 pt-2 h-64">
+      <div className="px-4 pb-5 h-64">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} margin={{ top: 8, right: 4, left: -12, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f3f7" vertical={false} />
             <XAxis
               dataKey="mesLabel"
-              tick={{ fontSize: 10, fill: "#a3acb9" }}
+              tick={{ fontSize: 10, fill: "#8898aa" }}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
-              tick={{ fontSize: 10, fill: "#a3acb9" }}
+              tick={{ fontSize: 10, fill: "#8898aa" }}
               tickFormatter={(v: number) => (v >= 1000 ? `${(v / 1000).toFixed(0)}k` : `${v}`)}
               axisLine={false}
               tickLine={false}
@@ -79,7 +79,7 @@ export function StackedBarChart({ data, title, colors, labels }: StackedBarChart
               <Bar dataKey="aVencer" name={labels.aVencer} fill={colors.aVencer} stackId="a" radius={[0, 0, 0, 0]} />
             )}
             {labels.vencido && (
-              <Bar dataKey="vencido" name={labels.vencido} fill={colors.vencido} stackId="a" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="vencido" name={labels.vencido} fill={colors.vencido} stackId="a" radius={[3, 3, 0, 0]} />
             )}
           </BarChart>
         </ResponsiveContainer>

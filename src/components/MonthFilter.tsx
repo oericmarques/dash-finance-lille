@@ -45,22 +45,20 @@ export function MonthFilter({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-1.5">
+    <div className="flex flex-wrap items-center gap-1">
       <select
         value={anoSelecionado}
         onChange={(e) => onAnoChange(e.target.value)}
-        className="rounded-md border border-border bg-white px-2.5 py-1 text-[11px] font-semibold text-text outline-none focus:border-accent transition-colors"
+        className="rounded-[var(--radius-sm)] bg-bg px-3 py-1.5 text-[11px] font-bold text-text outline-none border-none focus:ring-2 focus:ring-accent/20 transition-all"
       >
         {anos.map((a) => (
           <option key={a} value={a}>{a}</option>
         ))}
       </select>
 
-      <div className="h-4 w-px bg-border hidden sm:block" />
-
       <button
         onClick={toggleTodos}
-        className="rounded-md px-2 py-1 text-[11px] font-medium text-text-muted hover:text-text-secondary transition-colors"
+        className="rounded-full px-3 py-1 text-[11px] font-medium text-text-3 hover:text-text-2 hover:bg-bg transition-all"
       >
         {mesesSelecionados.length === 0 ? "Todos" : "Limpar"}
       </button>
@@ -71,13 +69,14 @@ export function MonthFilter({
           <button
             key={m.key}
             onClick={() => toggleMes(m.key)}
-            className="rounded-md px-2 py-1 text-[11px] font-medium transition-all"
+            className="rounded-full px-2.5 py-1 text-[11px] font-medium transition-all"
             style={active ? {
               backgroundColor: accentColor,
               color: "#fff",
+              boxShadow: `0 2px 8px ${accentColor}40`,
             } : {
               backgroundColor: "transparent",
-              color: "#a3acb9",
+              color: "#8898aa",
             }}
           >
             {m.label}

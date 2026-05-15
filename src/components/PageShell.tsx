@@ -52,26 +52,21 @@ export function PageShell({ data, title, subtitle, accentColor = "#0891b2", chil
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="bg-white border-b border-border px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-1 rounded-full" style={{ backgroundColor: accentColor }} />
-            <div>
-              <h1 className="text-lg font-bold text-text tracking-tight">{title}</h1>
-              {subtitle && <p className="text-xs text-text-secondary">{subtitle}</p>}
-            </div>
+      <div className="px-8 pt-8 pb-2">
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-extrabold text-text tracking-tight">{title}</h1>
+            {subtitle && <p className="text-sm text-text-3 mt-0.5">{subtitle}</p>}
           </div>
           <div className="flex items-center gap-3">
-            <span className="hidden sm:inline text-[11px] text-text-muted">
+            <span className="text-[10px] text-text-3 hidden sm:inline">
               {formatDateTimeBR(data.lastUpdated)}
             </span>
             <RefreshButton />
           </div>
         </div>
-      </header>
 
-      <div className="bg-white border-b border-border px-6 py-2">
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="card-static px-5 py-3 flex flex-wrap items-center gap-3">
           <MonthFilter
             anos={anos}
             anoSelecionado={ano}
@@ -81,12 +76,12 @@ export function PageShell({ data, title, subtitle, accentColor = "#0891b2", chil
             accentColor={accentColor}
           />
 
-          <div className="h-4 w-px bg-border hidden sm:block" />
+          <div className="h-4 w-px bg-text-3/20 hidden sm:block" />
 
           <select
             value={categoria}
             onChange={(e) => setCategoria(e.target.value)}
-            className="rounded-md border border-border bg-white px-2.5 py-1 text-[11px] text-text-secondary outline-none focus:border-accent transition-colors"
+            className="rounded-[var(--radius-sm)] bg-bg px-3 py-1.5 text-[11px] text-text-2 outline-none border-none focus:ring-2 focus:ring-accent/20 transition-all"
           >
             <option value="">Todas categorias</option>
             {categorias.map((c) => (
@@ -97,7 +92,7 @@ export function PageShell({ data, title, subtitle, accentColor = "#0891b2", chil
           {categoria && (
             <button
               onClick={() => setCategoria("")}
-              className="text-[10px] text-text-muted hover:text-text-secondary transition-colors"
+              className="text-[10px] text-text-3 hover:text-text-2 transition-colors"
             >
               limpar
             </button>
@@ -105,12 +100,12 @@ export function PageShell({ data, title, subtitle, accentColor = "#0891b2", chil
         </div>
       </div>
 
-      <div className="flex-1 p-6">
+      <div className="flex-1 px-8 py-6">
         {children(filtradas, ano)}
       </div>
 
-      <footer className="px-6 py-2 text-center text-[10px] text-text-muted border-t border-border-light">
-        Lille Consulting · Dados atualizados em {formatDateTimeBR(data.lastUpdated)}
+      <footer className="px-8 py-3 text-center text-[10px] text-text-3">
+        Lille Consulting · {formatDateTimeBR(data.lastUpdated)}
       </footer>
     </div>
   );

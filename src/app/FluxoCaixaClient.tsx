@@ -51,28 +51,28 @@ export function FluxoCaixaClient({ data }: { data: DashboardData }) {
           <div className="flex flex-col gap-6">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <StatusKpi
-                icon={<TrendingUp size={20} className="text-positive" />}
+                icon={<TrendingUp size={22} className="text-green" />}
                 value={formatBRL(totEnt.total)}
                 label="Receitas"
-                iconBg="bg-positive-soft"
+                iconBg="bg-green/10"
               />
               <StatusKpi
-                icon={<TrendingDown size={20} className="text-negative" />}
+                icon={<TrendingDown size={22} className="text-red" />}
                 value={formatBRL(totSai.total)}
                 label="Despesas"
-                iconBg="bg-negative-soft"
+                iconBg="bg-red/10"
               />
               <StatusKpi
-                icon={<Wallet size={20} className="text-accent" />}
+                icon={<Wallet size={22} className="text-accent" />}
                 value={formatBRL(saldo)}
                 label="Resultado"
-                iconBg="bg-accent-soft"
+                iconBg="bg-accent/10"
               />
               <StatusKpi
-                icon={<Landmark size={20} className="text-text-secondary" />}
+                icon={<Landmark size={22} className="text-purple" />}
                 value={formatBRL(totalSaldoBanco)}
                 label="Saldo em conta"
-                iconBg="bg-border-light"
+                iconBg="bg-purple/10"
               />
             </div>
 
@@ -116,21 +116,21 @@ export function FluxoCaixaClient({ data }: { data: DashboardData }) {
               labels={{ pago: "Saldo", aVencer: "", vencido: "" }}
             />
 
-            <div className="rounded-xl bg-white border border-border">
-              <div className="px-5 py-4 border-b border-border-light">
-                <h3 className="text-[11px] font-semibold text-text-secondary uppercase tracking-wider">Saldo bancario</h3>
+            <div className="card-static overflow-hidden">
+              <div className="px-6 pt-5 pb-2">
+                <h3 className="text-xs font-bold text-text-3 uppercase tracking-wider">Saldo bancario</h3>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-border-light">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px">
                 {data.saldos.map((s) => (
-                  <div key={s.banco} className="px-5 py-4">
-                    <p className="text-[10px] text-text-muted mb-1">{s.banco}</p>
-                    <p className="text-base font-bold text-text tabular-nums">{formatBRL(s.saldo)}</p>
+                  <div key={s.banco} className="px-6 py-4">
+                    <p className="text-[10px] font-medium text-text-3 uppercase tracking-wider mb-1.5">{s.banco}</p>
+                    <p className="text-lg font-extrabold text-text tabular-nums">{formatBRL(s.saldo)}</p>
                   </div>
                 ))}
               </div>
-              <div className="border-t border-border-light px-5 py-3 flex items-center justify-between bg-bg rounded-b-xl">
-                <span className="text-[11px] font-semibold text-text-secondary">Total consolidado</span>
-                <span className="text-lg font-bold text-text tabular-nums">{formatBRL(totalSaldoBanco)}</span>
+              <div className="mx-6 mb-5 mt-2 rounded-2xl bg-bg px-6 py-4 flex items-center justify-between">
+                <span className="text-xs font-bold text-text-2">Total consolidado</span>
+                <span className="text-2xl font-extrabold text-text tabular-nums">{formatBRL(totalSaldoBanco)}</span>
               </div>
             </div>
           </div>

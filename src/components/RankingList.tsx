@@ -17,32 +17,32 @@ export function RankingList({ data, title, color, maxItems = 8 }: RankingListPro
   const maxVal = items[0]?.valor || 1;
 
   return (
-    <div className="rounded-xl bg-white border border-border">
-      <div className="px-5 py-4 border-b border-border-light">
-        <h3 className="text-[11px] font-semibold text-text-secondary uppercase tracking-wider">{title}</h3>
+    <div className="card-static overflow-hidden">
+      <div className="px-6 pt-5 pb-3">
+        <h3 className="text-xs font-bold text-text-3 uppercase tracking-wider">{title}</h3>
       </div>
-      <div className="px-5 py-3 space-y-2">
+      <div className="px-6 pb-5 space-y-2.5">
         {items.map((item, i) => (
-          <div key={item.nome} className="flex items-center gap-2.5">
-            <span className="w-4 text-[10px] font-semibold text-text-muted tabular-nums text-right">{i + 1}</span>
-            <span className="w-28 truncate text-[11px] text-text">{item.nome}</span>
-            <div className="flex-1 h-3.5 rounded-full bg-border-light overflow-hidden">
+          <div key={item.nome} className="flex items-center gap-3">
+            <span className="w-4 text-[10px] font-bold text-text-3 tabular-nums text-right">{i + 1}</span>
+            <span className="w-28 truncate text-[11px] font-medium text-text">{item.nome}</span>
+            <div className="flex-1 h-4 rounded-full bg-bg overflow-hidden">
               <div
-                className="h-full rounded-full"
+                className="h-full rounded-full transition-all"
                 style={{
                   width: `${Math.max((item.valor / maxVal) * 100, 3)}%`,
                   backgroundColor: color,
-                  opacity: 1 - i * 0.05,
+                  opacity: 1 - i * 0.06,
                 }}
               />
             </div>
-            <span className="text-[11px] font-semibold text-text w-24 text-right tabular-nums">
+            <span className="text-[11px] font-bold text-text w-24 text-right tabular-nums">
               {formatBRL(item.valor)}
             </span>
           </div>
         ))}
         {items.length === 0 && (
-          <p className="text-[11px] text-text-muted text-center py-6">Sem dados</p>
+          <p className="text-xs text-text-3 text-center py-8">Sem dados</p>
         )}
       </div>
     </div>

@@ -1,49 +1,42 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #f8fafc;
+  --bg: #f4f7fa;
   --surface: #ffffff;
-  --border: #e8ecf1;
-  --border-light: #f1f5f9;
   --text: #1a1f36;
-  --text-secondary: #697386;
-  --text-muted: #a3acb9;
+  --text-2: #525f7f;
+  --text-3: #8898aa;
   --accent: #0891b2;
-  --accent-dark: #0e7490;
-  --accent-soft: rgba(8, 145, 178, 0.08);
   --green: #10b981;
-  --green-soft: rgba(16, 185, 129, 0.1);
   --red: #ef4444;
-  --red-soft: rgba(239, 68, 68, 0.1);
   --blue: #3b82f6;
-  --blue-soft: rgba(59, 130, 246, 0.1);
-  --orange: #f59e0b;
-  --orange-soft: rgba(245, 158, 11, 0.1);
+  --amber: #f59e0b;
+  --purple: #8b5cf6;
+  --pink: #ec4899;
+  --teal: #14b8a6;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+  --shadow: 0 4px 16px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+  --radius: 16px;
+  --radius-sm: 10px;
   --nav-bg: #0f172a;
-  --nav-border: #1e293b;
 }
 
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
-  --color-border: var(--border);
-  --color-border-light: var(--border-light);
   --color-text: var(--text);
-  --color-text-secondary: var(--text-secondary);
-  --color-text-muted: var(--text-muted);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
   --color-accent: var(--accent);
-  --color-accent-dark: var(--accent-dark);
-  --color-accent-soft: var(--accent-soft);
-  --color-positive: var(--green);
-  --color-positive-soft: var(--green-soft);
-  --color-negative: var(--red);
-  --color-negative-soft: var(--red-soft);
-  --color-info: var(--blue);
-  --color-info-soft: var(--blue-soft);
-  --color-warning: var(--orange);
-  --color-warning-soft: var(--orange-soft);
+  --color-green: var(--green);
+  --color-red: var(--red);
+  --color-blue: var(--blue);
+  --color-amber: var(--amber);
+  --color-purple: var(--purple);
+  --color-pink: var(--pink);
+  --color-teal: var(--teal);
   --color-nav-bg: var(--nav-bg);
-  --color-nav-border: var(--nav-border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -52,13 +45,22 @@ body {
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease;
 }
 
-.animate-fade-up {
-  animation: fadeUp 0.35s ease-out forwards;
+.card:hover {
+  box-shadow: var(--shadow);
+}
+
+.card-static {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
 }
