@@ -89,6 +89,7 @@ export function TabelaMovimentacoes({
                 <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted">Descricao</th>
               )}
               <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted">Categoria</th>
+              <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted">Status</th>
               <th className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider text-muted">Valor</th>
             </tr>
           </thead>
@@ -121,6 +122,17 @@ export function TabelaMovimentacoes({
                 <td className="px-5 py-3.5">
                   <span className="rounded-full bg-accent-light px-2.5 py-1 text-xs font-medium text-accent">
                     {m.categoria}
+                  </span>
+                </td>
+                <td className="px-5 py-3.5">
+                  <span
+                    className={`rounded-full px-2.5 py-1 text-xs font-medium ${
+                      m.status === "realizado"
+                        ? "bg-positive-light text-positive"
+                        : "bg-warning-light text-warning"
+                    }`}
+                  >
+                    {m.status === "realizado" ? "Realizado" : "Pendente"}
                   </span>
                 </td>
                 <td

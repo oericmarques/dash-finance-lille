@@ -66,6 +66,8 @@ async function fetchMovimentacoes(
     .filter((row) => row[0] && row[5])
     .map((row) => {
       const planoItem = planoMap.get(row[0]);
+      const dataPgto = parseDate(row[6] || "");
+      const temPagamento = dataPgto !== "";
       return {
         planoContasId: row[0] || "",
         data: parseDate(row[1] || ""),
@@ -73,11 +75,12 @@ async function fetchMovimentacoes(
         uf: row[3] || "",
         descricao: row[4] || "",
         valorRecebido: parseBRL(row[5]),
-        dataPgto: parseDate(row[6] || ""),
+        dataPgto,
         notaFiscal: row[7] || "",
         categoria: row[8] || "",
         mes: row[9] || "",
         movimento: planoItem?.movimento || "Entrada",
+        status: temPagamento ? "realizado" : "pendente",
       };
     });
 }

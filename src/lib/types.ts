@@ -18,6 +18,7 @@ export interface Movimentacao {
   categoria: string;
   mes: string;
   movimento: "Entrada" | "Saída";
+  status: "realizado" | "pendente";
 }
 
 export interface SaldoBanco {
