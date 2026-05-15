@@ -7,6 +7,7 @@ import {
   totalPorStatus,
   resumoMensalPorStatus,
   resumoPorCliente,
+  resumoPorConta,
   calcularResumoCategorias,
   formatBRL,
 } from "@/lib/analytics";
@@ -16,6 +17,7 @@ import { StackedBarChart } from "@/components/StackedBarChart";
 import { DonutChart } from "@/components/DonutChart";
 import { ClienteTable } from "@/components/ClienteTable";
 import { RankingList } from "@/components/RankingList";
+import { ContaDetailTable } from "@/components/ContaDetailTable";
 
 export function ContasPagarClient({ data }: { data: DashboardData }) {
   return (
@@ -29,6 +31,7 @@ export function ContasPagarClient({ data }: { data: DashboardData }) {
         const resumoMensal = resumoMensalPorStatus(saidas);
         const fornecedores = resumoPorCliente(saidas);
         const categorias = calcularResumoCategorias(saidas);
+        const contas = resumoPorConta(saidas, data.planoContas);
 
         const maioresCredores = fornecedores
           .filter((c) => c.pendente + c.vencido > 0)
@@ -64,6 +67,13 @@ export function ContasPagarClient({ data }: { data: DashboardData }) {
               />
             </div>
 
+            <ContaDetailTable
+              data={contas}
+              title="Detalhamento por conta"
+              columns={{ col1: "Pago", col2: "A Vencer", col3: "Vencido" }}
+              accentColor="#ea580c"
+            />
+
             <StackedBarChart
               data={resumoMensal}
               title="Despesas por mes"
@@ -94,11 +104,7 @@ export function ContasPagarClient({ data }: { data: DashboardData }) {
               <ClienteTable
                 data={fornecedores}
                 title="Fornecedores"
-                columns={{
-                  col1: "Pago",
-                  col2: "A Vencer",
-                  col3: "Vencido",
-                }}
+                columns={{ col1: "Pago", col2: "A Vencer", col3: "Vencido" }}
               />
               <RankingList
                 data={maioresCredores}

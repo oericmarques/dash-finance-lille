@@ -186,6 +186,56 @@ export function mesLabelCompleto(mes: string): string {
   return `${nomes[match[1]] || match[1]} 20${match[2]}`;
 }
 
+// --- Categorias ---
+
+export function extrairCategorias(movs: Movimentacao[]): string[] {
+  const cats = new Set<string>();
+  for (const m of movs) {
+    if (m.categoria) cats.add(m.categoria);
+  }
+  return Array.from(cats).sort();
+}
+
+export function filtrarPorCategoria(movs: Movimentacao[], categoria: string): Movimentacao[] {
+  if (!categoria) return movs;
+  return movs.filter((m) => m.categoria === categoria);
+}
+
+// --- Resumo por plano de contas ---
+
+export function resumoPorConta(
+  movs: Movimentacao[],
+  plano: { id: string; lancamento: string; conta: string; tipo: string }[]
+): { id: string; descricao: string; tipo: string; pago: number; aVencer: number; vencido: number; total: number }[] {
+  const mapa = new Map<string, { pago: number; aVencer: number; vencido: number }>();
+
+  for (const m of movs) {
+    const key = m.planoContasId;
+    const atual = mapa.get(key) || { pago: 0, aVencer: 0, vencido: 0 };
+    if (m.status === "pago") atual.pago += m.valorRecebido;
+    else if (m.status === "vencido") atual.vencido += m.valorRecebido;
+    else atual.aVencer += m.valorRecebido;
+    mapa.set(key, atual);
+  }
+
+  const planoMap = new Map(plano.map((p) => [p.id, p]));
+
+  return Array.from(mapa.entries())
+    .map(([id, v]) => {
+      const p = planoMap.get(id);
+      return {
+        id,
+        descricao: p ? `${p.lancamento} - ${p.conta}` : id,
+        tipo: p?.tipo || "",
+        pago: r2(v.pago),
+        aVencer: r2(v.aVencer),
+        vencido: r2(v.vencido),
+        total: r2(v.pago + v.aVencer + v.vencido),
+      };
+    })
+    .sort((a, b) => b.total - a.total);
+}
+
 // --- Internos ---
 
 function mesParaOrdem(mes: string): number {
