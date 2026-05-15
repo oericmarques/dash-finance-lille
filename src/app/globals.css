@@ -1,78 +1,64 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f1f5f9;
+  --bg: #f8fafc;
   --surface: #ffffff;
-  --card: #ffffff;
-  --card-border: #e2e8f0;
-  --card-hover: #f8fafc;
-  --foreground: #0f172a;
-  --muted: #64748b;
+  --border: #e8ecf1;
+  --border-light: #f1f5f9;
+  --text: #1a1f36;
+  --text-secondary: #697386;
+  --text-muted: #a3acb9;
   --accent: #0891b2;
-  --accent-hover: #0e7490;
-  --accent-light: rgba(8, 145, 178, 0.08);
-  --green: #059669;
-  --green-light: rgba(5, 150, 105, 0.08);
-  --green-bg: rgba(5, 150, 105, 0.15);
-  --red: #dc2626;
-  --red-light: rgba(220, 38, 38, 0.08);
-  --red-bg: rgba(220, 38, 38, 0.15);
-  --orange: #ea580c;
-  --orange-light: rgba(234, 88, 12, 0.08);
-  --purple: #7c3aed;
-  --purple-light: rgba(124, 58, 237, 0.08);
-  --dark: #0f172a;
-  --dark-light: #1e293b;
-  --sidebar-bg: #0f172a;
-  --sidebar-text: #94a3b8;
-  --sidebar-active: #06b6d4;
+  --accent-dark: #0e7490;
+  --accent-soft: rgba(8, 145, 178, 0.08);
+  --green: #10b981;
+  --green-soft: rgba(16, 185, 129, 0.1);
+  --red: #ef4444;
+  --red-soft: rgba(239, 68, 68, 0.1);
+  --blue: #3b82f6;
+  --blue-soft: rgba(59, 130, 246, 0.1);
+  --orange: #f59e0b;
+  --orange-soft: rgba(245, 158, 11, 0.1);
+  --nav-bg: #0f172a;
+  --nav-border: #1e293b;
 }
 
 @theme inline {
-  --color-background: var(--background);
+  --color-bg: var(--bg);
   --color-surface: var(--surface);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-border: var(--card-border);
-  --color-card-hover: var(--card-hover);
-  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-text: var(--text);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
   --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
-  --color-accent-light: var(--accent-light);
+  --color-accent-dark: var(--accent-dark);
+  --color-accent-soft: var(--accent-soft);
   --color-positive: var(--green);
-  --color-positive-light: var(--green-light);
-  --color-positive-bg: var(--green-bg);
+  --color-positive-soft: var(--green-soft);
   --color-negative: var(--red);
-  --color-negative-light: var(--red-light);
-  --color-negative-bg: var(--red-bg);
+  --color-negative-soft: var(--red-soft);
+  --color-info: var(--blue);
+  --color-info-soft: var(--blue-soft);
   --color-warning: var(--orange);
-  --color-warning-light: var(--orange-light);
-  --color-purple: var(--purple);
-  --color-purple-light: var(--purple-light);
-  --color-dark: var(--dark);
-  --color-dark-light: var(--dark-light);
-  --color-sidebar-bg: var(--sidebar-bg);
-  --color-sidebar-text: var(--sidebar-text);
-  --color-sidebar-active: var(--sidebar-active);
+  --color-warning-soft: var(--orange-soft);
+  --color-nav-bg: var(--nav-bg);
+  --color-nav-border: var(--nav-border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out forwards;
+.animate-fade-up {
+  animation: fadeUp 0.35s ease-out forwards;
 }
-
-.animate-fade-in-delay-1 { animation-delay: 0.05s; opacity: 0; }
-.animate-fade-in-delay-2 { animation-delay: 0.1s; opacity: 0; }
-.animate-fade-in-delay-3 { animation-delay: 0.15s; opacity: 0; }
-.animate-fade-in-delay-4 { animation-delay: 0.2s; opacity: 0; }

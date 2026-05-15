@@ -7,7 +7,6 @@ import {
   totalPorStatus,
   resumoMensalPorStatus,
   resumoPorCliente,
-  resumoPorConta,
   calcularResumoCategorias,
   formatBRL,
 } from "@/lib/analytics";
@@ -17,11 +16,11 @@ import { StackedBarChart } from "@/components/StackedBarChart";
 import { DonutChart } from "@/components/DonutChart";
 import { ClienteTable } from "@/components/ClienteTable";
 import { RankingList } from "@/components/RankingList";
-import { ContaDetailTable } from "@/components/ContaDetailTable";
+import { MovimentacaoList } from "@/components/MovimentacaoList";
 
 export function ContasPagarClient({ data }: { data: DashboardData }) {
   return (
-    <PageShell data={data} title="CONTAS A PAGAR" headerColor="bg-orange-600" accentColor="#ea580c">
+    <PageShell data={data} title="Contas a Pagar" subtitle="Saidas e pagamentos" accentColor="#f59e0b">
       {(filtradas) => {
         const saidas = soSaidas(filtradas);
         const tot = totalPorStatus(saidas);
@@ -31,7 +30,6 @@ export function ContasPagarClient({ data }: { data: DashboardData }) {
         const resumoMensal = resumoMensalPorStatus(saidas);
         const fornecedores = resumoPorCliente(saidas);
         const categorias = calcularResumoCategorias(saidas);
-        const contas = resumoPorConta(saidas, data.planoContas);
 
         const maioresCredores = fornecedores
           .filter((c) => c.pendente + c.vencido > 0)
@@ -39,68 +37,61 @@ export function ContasPagarClient({ data }: { data: DashboardData }) {
           .map((c) => ({ nome: c.cliente, valor: c.pendente + c.vencido }));
 
         return (
-          <div className="flex flex-col gap-5">
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <StatusKpi
-                icon={<CheckCircle size={20} className="text-green-600" />}
+                icon={<CheckCircle size={20} className="text-positive" />}
                 value={formatBRL(tot.pago)}
                 label="Pago"
-                iconBg="bg-green-50"
+                iconBg="bg-positive-soft"
               />
               <StatusKpi
-                icon={<Clock size={20} className="text-orange-600" />}
+                icon={<Clock size={20} className="text-warning" />}
                 value={formatBRL(tot.aVencer)}
                 label="A Vencer"
-                iconBg="bg-orange-50"
+                iconBg="bg-warning-soft"
               />
               <StatusKpi
-                icon={<AlertTriangle size={20} className="text-red-600" />}
+                icon={<AlertTriangle size={20} className="text-negative" />}
                 value={formatBRL(tot.vencido)}
                 label="Vencidos"
-                iconBg="bg-red-50"
+                iconBg="bg-negative-soft"
               />
               <StatusKpi
-                icon={<Percent size={20} className="text-amber-600" />}
+                icon={<Percent size={20} className="text-warning" />}
                 value={`${pctVencido}%`}
                 label="% Vencido"
-                iconBg="bg-amber-50"
+                iconBg="bg-warning-soft"
               />
             </div>
-
-            <ContaDetailTable
-              data={contas}
-              title="Detalhamento por conta"
-              columns={{ col1: "Pago", col2: "A Vencer", col3: "Vencido" }}
-              accentColor="#ea580c"
-            />
 
             <StackedBarChart
               data={resumoMensal}
               title="Despesas por mes"
-              colors={{ pago: "#16a34a", aVencer: "#f97316", vencido: "#dc2626" }}
+              colors={{ pago: "#10b981", aVencer: "#f59e0b", vencido: "#ef4444" }}
               labels={{ pago: "Pago", aVencer: "A Vencer", vencido: "Vencido" }}
             />
 
-            <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
               <DonutChart
                 title="Status dos pagamentos"
                 data={[
-                  { name: "Pago", value: tot.pago, color: "#16a34a" },
-                  { name: "A Vencer", value: tot.aVencer, color: "#f97316" },
-                  { name: "Vencido", value: tot.vencido, color: "#dc2626" },
+                  { name: "Pago", value: tot.pago, color: "#10b981" },
+                  { name: "A Vencer", value: tot.aVencer, color: "#f59e0b" },
+                  { name: "Vencido", value: tot.vencido, color: "#ef4444" },
                 ]}
               />
               <DonutChart
-                title="Categorias de despesa"
+                title="Categorias"
                 data={categorias.slice(0, 6).map((c, i) => ({
                   name: c.categoria,
                   value: c.valor,
-                  color: ["#f97316", "#0891b2", "#7c3aed", "#ea580c", "#d97706", "#64748b"][i],
+                  color: ["#f59e0b", "#0891b2", "#8b5cf6", "#ef4444", "#14b8a6", "#64748b"][i],
                 }))}
               />
             </div>
 
-            <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
               <ClienteTable
                 data={fornecedores}
                 title="Fornecedores"
@@ -108,10 +99,17 @@ export function ContasPagarClient({ data }: { data: DashboardData }) {
               />
               <RankingList
                 data={maioresCredores}
-                title="Maiores credores (pendente)"
-                color="#f97316"
+                title="Maiores credores"
+                color="#f59e0b"
               />
             </div>
+
+            <MovimentacaoList
+              data={saidas}
+              title="Todas as despesas"
+              statusLabels={{ pago: "Pago", a_vencer: "A Vencer", vencido: "Vencido" }}
+              statusColors={{ pago: "#10b981", a_vencer: "#f59e0b", vencido: "#ef4444" }}
+            />
           </div>
         );
       }}

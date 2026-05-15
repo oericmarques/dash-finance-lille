@@ -31,10 +31,10 @@ function CustomTooltip({
 }) {
   if (!active || !payload) return null;
   return (
-    <div className="rounded-lg border border-slate-200 bg-white px-3 py-2.5 shadow-lg">
-      <p className="mb-1 text-xs font-bold text-slate-800">{label}</p>
+    <div className="rounded-lg border border-border bg-white px-3 py-2.5 shadow-md">
+      <p className="mb-1 text-[11px] font-semibold text-text">{label}</p>
       {payload.map((entry) => (
-        <p key={entry.dataKey} className="text-xs" style={{ color: entry.color }}>
+        <p key={entry.dataKey} className="text-[11px]" style={{ color: entry.color }}>
           {entry.name}: {formatBRL(entry.value)}
         </p>
       ))}
@@ -46,31 +46,31 @@ export function StackedBarChart({ data, title, colors, labels }: StackedBarChart
   const chartData = data.map((d) => ({ ...d, mesLabel: mesLabel(d.mes) }));
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="px-5 pt-4 pb-1">
-        <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{title}</h3>
+    <div className="rounded-xl bg-white border border-border">
+      <div className="px-5 py-4 border-b border-border-light">
+        <h3 className="text-[11px] font-semibold text-text-secondary uppercase tracking-wider">{title}</h3>
       </div>
-      <div className="px-3 pb-4 h-64">
+      <div className="px-4 pb-4 pt-2 h-64">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={chartData} margin={{ top: 8, right: 8, left: -8, bottom: 0 }}>
+          <BarChart data={chartData} margin={{ top: 8, right: 4, left: -12, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
             <XAxis
               dataKey="mesLabel"
-              tick={{ fontSize: 11, fill: "#94a3b8" }}
+              tick={{ fontSize: 10, fill: "#a3acb9" }}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
-              tick={{ fontSize: 10, fill: "#94a3b8" }}
+              tick={{ fontSize: 10, fill: "#a3acb9" }}
               tickFormatter={(v: number) => (v >= 1000 ? `${(v / 1000).toFixed(0)}k` : `${v}`)}
               axisLine={false}
               tickLine={false}
             />
             <Tooltip content={<CustomTooltip />} />
             <Legend
-              wrapperStyle={{ fontSize: 11, paddingTop: 8 }}
+              wrapperStyle={{ fontSize: 10, paddingTop: 4 }}
               iconType="circle"
-              iconSize={8}
+              iconSize={7}
             />
             {labels.pago && (
               <Bar dataKey="pago" name={labels.pago} fill={colors.pago} stackId="a" radius={[0, 0, 0, 0]} />
@@ -79,7 +79,7 @@ export function StackedBarChart({ data, title, colors, labels }: StackedBarChart
               <Bar dataKey="aVencer" name={labels.aVencer} fill={colors.aVencer} stackId="a" radius={[0, 0, 0, 0]} />
             )}
             {labels.vencido && (
-              <Bar dataKey="vencido" name={labels.vencido} fill={colors.vencido} stackId="a" radius={[3, 3, 0, 0]} />
+              <Bar dataKey="vencido" name={labels.vencido} fill={colors.vencido} stackId="a" radius={[2, 2, 0, 0]} />
             )}
           </BarChart>
         </ResponsiveContainer>
