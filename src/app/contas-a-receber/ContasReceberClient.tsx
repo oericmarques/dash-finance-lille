@@ -19,7 +19,7 @@ import { RankingList } from "@/components/RankingList";
 
 export function ContasReceberClient({ data }: { data: DashboardData }) {
   return (
-    <PageShell data={data} title="CONTAS A RECEBER" headerColor="bg-blue-700">
+    <PageShell data={data} title="CONTAS A RECEBER" headerColor="bg-blue-700" accentColor="#1d4ed8">
       {(filtradas) => {
         const entradas = soEntradas(filtradas);
         const tot = totalPorStatus(entradas);

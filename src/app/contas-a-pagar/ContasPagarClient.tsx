@@ -19,7 +19,7 @@ import { RankingList } from "@/components/RankingList";
 
 export function ContasPagarClient({ data }: { data: DashboardData }) {
   return (
-    <PageShell data={data} title="CONTAS A PAGAR" headerColor="bg-orange-600">
+    <PageShell data={data} title="CONTAS A PAGAR" headerColor="bg-orange-600" accentColor="#ea580c">
       {(filtradas) => {
         const saidas = soSaidas(filtradas);
         const tot = totalPorStatus(saidas);

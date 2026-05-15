@@ -17,7 +17,7 @@ import { DonutChart } from "@/components/DonutChart";
 
 export function FluxoCaixaClient({ data }: { data: DashboardData }) {
   return (
-    <PageShell data={data} title="FLUXO DE CAIXA" headerColor="bg-slate-800">
+    <PageShell data={data} title="FLUXO DE CAIXA" headerColor="bg-slate-800" accentColor="#334155">
       {(filtradas) => {
         const entradas = soEntradas(filtradas);
         const saidas = soSaidas(filtradas);

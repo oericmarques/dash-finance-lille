@@ -30,7 +30,7 @@ export function MonthFilter({
   mesesSelecionados,
   onAnoChange,
   onMesesChange,
-  accentColor = "accent-cyan-500",
+  accentColor = "#0891b2",
 }: MonthFilterProps) {
   function toggleMes(key: string) {
     if (mesesSelecionados.includes(key)) {
@@ -41,58 +41,50 @@ export function MonthFilter({
   }
 
   function toggleTodos() {
-    if (mesesSelecionados.length === 12) {
-      onMesesChange([]);
-    } else {
+    if (mesesSelecionados.length === 0) {
       onMesesChange(MESES.map((m) => m.key));
+    } else {
+      onMesesChange([]);
     }
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div>
-        <label className="mb-1.5 block text-xs font-semibold text-slate-500 uppercase tracking-wider">
-          Ano
-        </label>
-        <select
-          value={anoSelecionado}
-          onChange={(e) => onAnoChange(e.target.value)}
-          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold outline-none focus:border-cyan-500"
-        >
-          {anos.map((a) => (
-            <option key={a} value={a}>{a}</option>
-          ))}
-        </select>
-      </div>
+    <div className="flex flex-wrap items-center gap-2">
+      <select
+        value={anoSelecionado}
+        onChange={(e) => onAnoChange(e.target.value)}
+        className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 outline-none focus:border-slate-400"
+      >
+        {anos.map((a) => (
+          <option key={a} value={a}>{a}</option>
+        ))}
+      </select>
 
-      <div>
-        <div className="mb-1.5 flex items-center justify-between">
-          <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Mes</label>
-          <button
-            onClick={toggleTodos}
-            className="text-xs text-cyan-600 hover:text-cyan-800"
-          >
-            {mesesSelecionados.length === 12 ? "Limpar" : "Todos"}
-          </button>
-        </div>
-        <div className="grid grid-cols-3 gap-1.5">
-          {MESES.map((m) => {
-            const selected = mesesSelecionados.length === 0 || mesesSelecionados.includes(m.key);
-            return (
-              <button
-                key={m.key}
-                onClick={() => toggleMes(m.key)}
-                className={`rounded-lg px-2 py-1.5 text-xs font-medium transition-all ${
-                  selected
-                    ? `bg-slate-800 text-white`
-                    : "bg-slate-100 text-slate-400 hover:bg-slate-200"
-                } ${accentColor}`}
-              >
-                {m.label}
-              </button>
-            );
-          })}
-        </div>
+      <div className="h-5 w-px bg-slate-200 hidden sm:block" />
+
+      <div className="flex flex-wrap items-center gap-1">
+        <button
+          onClick={toggleTodos}
+          className="rounded-md px-2.5 py-1 text-xs font-medium transition-colors text-slate-500 hover:bg-slate-100"
+        >
+          {mesesSelecionados.length === 0 ? "Todos" : "Limpar"}
+        </button>
+        {MESES.map((m) => {
+          const active = mesesSelecionados.length === 0 || mesesSelecionados.includes(m.key);
+          return (
+            <button
+              key={m.key}
+              onClick={() => toggleMes(m.key)}
+              className="rounded-md px-2.5 py-1 text-xs font-medium transition-all"
+              style={{
+                backgroundColor: active ? accentColor : "transparent",
+                color: active ? "#fff" : "#94a3b8",
+              }}
+            >
+              {m.label}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

@@ -24,10 +24,10 @@ function CustomTooltip({
   if (!active || !payload?.[0]) return null;
   const d = payload[0].payload;
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-xl">
-      <p className="text-sm font-bold">{d.name}</p>
-      <p className="text-sm">{formatBRL(d.value)}</p>
-      <p className="text-xs text-slate-500">{d.pct}%</p>
+    <div className="rounded-lg border border-slate-200 bg-white px-3 py-2.5 shadow-lg">
+      <p className="text-xs font-bold text-slate-800">{d.name}</p>
+      <p className="text-xs text-slate-600">{formatBRL(d.value)}</p>
+      <p className="text-[10px] text-slate-400">{d.pct}%</p>
     </div>
   );
 }
@@ -41,19 +41,19 @@ export function DonutChart({ data, title }: DonutChartProps) {
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-100 bg-slate-800 px-5 py-3 rounded-t-2xl">
-        <h3 className="text-sm font-bold text-white uppercase tracking-wider">{title}</h3>
+      <div className="px-5 pt-4 pb-1">
+        <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{title}</h3>
       </div>
-      <div className="flex items-center gap-4 p-4">
-        <div className="h-44 w-44 shrink-0">
+      <div className="flex items-center gap-4 px-5 pb-4 pt-2">
+        <div className="h-40 w-40 shrink-0">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={enriched}
                 cx="50%"
                 cy="50%"
-                outerRadius={75}
-                innerRadius={45}
+                outerRadius={70}
+                innerRadius={42}
                 dataKey="value"
                 paddingAngle={2}
                 strokeWidth={0}
@@ -66,12 +66,12 @@ export function DonutChart({ data, title }: DonutChartProps) {
             </PieChart>
           </ResponsiveContainer>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2.5">
           {enriched.map((d) => (
-            <div key={d.name} className="flex items-center gap-2">
-              <div className="h-3 w-3 rounded-full shrink-0" style={{ backgroundColor: d.color }} />
-              <span className="text-xs text-slate-600">{d.name}</span>
-              <span className="ml-auto text-xs font-bold text-slate-900">{d.pct}%</span>
+            <div key={d.name} className="flex items-center gap-2.5">
+              <div className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: d.color }} />
+              <span className="text-xs text-slate-600 leading-none">{d.name}</span>
+              <span className="text-xs font-semibold text-slate-800 tabular-nums">{d.pct}%</span>
             </div>
           ))}
         </div>
