@@ -6,6 +6,8 @@ export interface PlanoContas {
   tipo: string;
 }
 
+export type StatusPagamento = "pago" | "a_vencer" | "vencido";
+
 export interface Movimentacao {
   planoContasId: string;
   data: string;
@@ -18,7 +20,7 @@ export interface Movimentacao {
   categoria: string;
   mes: string;
   movimento: "Entrada" | "Saída";
-  status: "realizado" | "pendente";
+  status: StatusPagamento;
 }
 
 export interface SaldoBanco {
@@ -36,13 +38,22 @@ export interface DashboardData {
 
 export interface ResumoMensal {
   mes: string;
-  entradas: number;
-  saidas: number;
-  resultado: number;
+  pago: number;
+  aVencer: number;
+  vencido: number;
+  total: number;
 }
 
 export interface ResumoCategoria {
   categoria: string;
   valor: number;
   percentual: number;
+}
+
+export interface ResumoCliente {
+  cliente: string;
+  pago: number;
+  pendente: number;
+  vencido: number;
+  qtdAberto: number;
 }

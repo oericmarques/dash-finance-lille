@@ -4,6 +4,7 @@ import type {
   Movimentacao,
   SaldoBanco,
   DashboardData,
+  StatusPagamento,
 } from "./types";
 
 const SPREADSHEET_ID = "1476Ok5dUg6XZgwBiL2Om1I3WHzxSkVq6LEtabyMOy_w";
@@ -34,6 +35,18 @@ function parseDate(value: string): string {
   return value;
 }
 
+function calcularStatus(dataVencimento: string, dataPgto: string): StatusPagamento {
+  if (dataPgto && dataPgto.trim() !== "") return "pago";
+
+  if (!dataVencimento) return "a_vencer";
+
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+  const venc = new Date(dataVencimento);
+
+  return venc < hoje ? "vencido" : "a_vencer";
+}
+
 async function fetchCSV(sheetName: string): Promise<string[][]> {
   const res = await fetch(sheetUrl(sheetName), { next: { revalidate: 86400 } });
   const text = await res.text();
@@ -53,9 +66,7 @@ async function fetchPlanoContas(): Promise<PlanoContas[]> {
   }));
 }
 
-async function fetchMovimentacoes(
-  plano: PlanoContas[]
-): Promise<Movimentacao[]> {
+async function fetchMovimentacoes(plano: PlanoContas[]): Promise<Movimentacao[]> {
   const rows = await fetchCSV("fMovimentacoes");
   if (rows.length < 2) return [];
 
@@ -66,11 +77,11 @@ async function fetchMovimentacoes(
     .filter((row) => row[0] && row[5])
     .map((row) => {
       const planoItem = planoMap.get(row[0]);
+      const dataVenc = parseDate(row[1] || "");
       const dataPgto = parseDate(row[6] || "");
-      const temPagamento = dataPgto !== "";
       return {
         planoContasId: row[0] || "",
-        data: parseDate(row[1] || ""),
+        data: dataVenc,
         cliente: row[2] || "",
         uf: row[3] || "",
         descricao: row[4] || "",
@@ -80,7 +91,7 @@ async function fetchMovimentacoes(
         categoria: row[8] || "",
         mes: row[9] || "",
         movimento: planoItem?.movimento || "Entrada",
-        status: temPagamento ? "realizado" : "pendente",
+        status: calcularStatus(dataVenc, dataPgto),
       };
     });
 }
