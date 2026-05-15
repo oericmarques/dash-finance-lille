@@ -77,10 +77,31 @@ export function formatDateBR(isoDate: string): string {
 export function formatDateTimeBR(iso: string): string {
   const d = new Date(iso);
   return d.toLocaleString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+export function mesParaLabel(mes: string): string {
+  const meses: Record<string, string> = {
+    jan: "Janeiro", fev: "Fevereiro", mar: "Marco", abr: "Abril",
+    mai: "Maio", jun: "Junho", jul: "Julho", ago: "Agosto",
+    set: "Setembro", out: "Outubro", nov: "Novembro", dez: "Dezembro",
+  };
+  const match = mes.match(/^([a-z]{3})\.(\d{2})$/);
+  if (!match) return mes;
+  const [, nomeMes, ano] = match;
+  return `${meses[nomeMes] || nomeMes} 20${ano}`;
+}
+
+export function mesParaSlug(mes: string): string {
+  return mes.replace(".", "-");
+}
+
+export function slugParaMes(slug: string): string {
+  return slug.replace("-", ".");
 }

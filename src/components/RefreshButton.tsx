@@ -22,9 +22,9 @@ export function RefreshButton() {
     <button
       onClick={handleRefresh}
       disabled={loading}
-      className="flex items-center gap-2 rounded-lg border border-card-border bg-card px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-background disabled:opacity-50"
+      className="flex items-center gap-2 rounded-xl border border-accent/30 bg-accent/10 px-4 py-2 text-sm font-medium text-accent transition-all hover:bg-accent/20 disabled:opacity-50"
     >
-      <RefreshCw size={16} className={loading ? "animate-spin" : ""} />
+      <RefreshCw size={15} className={loading ? "animate-spin" : ""} />
       {loading ? "Atualizando..." : "Atualizar agora"}
     </button>
   );

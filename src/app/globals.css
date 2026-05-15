@@ -1,35 +1,59 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #f1f5f9;
+  --surface: #ffffff;
   --card: #ffffff;
   --card-border: #e2e8f0;
+  --card-hover: #f8fafc;
+  --foreground: #0f172a;
   --muted: #64748b;
-  --accent: #2563eb;
-  --accent-light: #dbeafe;
-  --green: #16a34a;
-  --green-light: #dcfce7;
+  --accent: #0891b2;
+  --accent-hover: #0e7490;
+  --accent-light: rgba(8, 145, 178, 0.08);
+  --green: #059669;
+  --green-light: rgba(5, 150, 105, 0.08);
+  --green-bg: rgba(5, 150, 105, 0.15);
   --red: #dc2626;
-  --red-light: #fee2e2;
+  --red-light: rgba(220, 38, 38, 0.08);
+  --red-bg: rgba(220, 38, 38, 0.15);
   --orange: #ea580c;
-  --orange-light: #ffedd5;
+  --orange-light: rgba(234, 88, 12, 0.08);
+  --purple: #7c3aed;
+  --purple-light: rgba(124, 58, 237, 0.08);
+  --dark: #0f172a;
+  --dark-light: #1e293b;
+  --sidebar-bg: #0f172a;
+  --sidebar-text: #94a3b8;
+  --sidebar-active: #06b6d4;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-border: var(--card-border);
+  --color-card-hover: var(--card-hover);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
   --color-accent-light: var(--accent-light);
   --color-positive: var(--green);
   --color-positive-light: var(--green-light);
+  --color-positive-bg: var(--green-bg);
   --color-negative: var(--red);
   --color-negative-light: var(--red-light);
+  --color-negative-bg: var(--red-bg);
   --color-warning: var(--orange);
   --color-warning-light: var(--orange-light);
+  --color-purple: var(--purple);
+  --color-purple-light: var(--purple-light);
+  --color-dark: var(--dark);
+  --color-dark-light: var(--dark-light);
+  --color-sidebar-bg: var(--sidebar-bg);
+  --color-sidebar-text: var(--sidebar-text);
+  --color-sidebar-active: var(--sidebar-active);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -38,3 +62,17 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-fade-in-delay-1 { animation-delay: 0.05s; opacity: 0; }
+.animate-fade-in-delay-2 { animation-delay: 0.1s; opacity: 0; }
+.animate-fade-in-delay-3 { animation-delay: 0.15s; opacity: 0; }
+.animate-fade-in-delay-4 { animation-delay: 0.2s; opacity: 0; }

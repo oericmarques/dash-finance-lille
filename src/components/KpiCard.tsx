@@ -6,28 +6,36 @@ interface KpiCardProps {
   icon: ReactNode;
   trend?: "positive" | "negative" | "neutral";
   subtitle?: string;
+  iconBg?: string;
 }
 
-export function KpiCard({ title, value, icon, trend, subtitle }: KpiCardProps) {
+export function KpiCard({
+  title,
+  value,
+  icon,
+  trend,
+  subtitle,
+  iconBg = "bg-accent-light text-accent",
+}: KpiCardProps) {
   const trendColors = {
     positive: "text-positive",
     negative: "text-negative",
-    neutral: "text-muted",
+    neutral: "text-foreground",
   };
 
   return (
-    <div className="rounded-xl border border-card-border bg-card p-5 shadow-sm">
-      <div className="flex items-center justify-between">
+    <div className="rounded-2xl border border-card-border bg-card p-5 transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5">
+      <div className="flex items-start justify-between">
         <span className="text-sm font-medium text-muted">{title}</span>
-        <span className="text-muted">{icon}</span>
+        <div className={`rounded-xl p-2.5 ${iconBg}`}>{icon}</div>
       </div>
       <p
-        className={`mt-2 text-2xl font-bold tracking-tight ${trend ? trendColors[trend] : ""}`}
+        className={`mt-3 text-2xl font-bold tracking-tight ${trend ? trendColors[trend] : ""}`}
       >
         {value}
       </p>
       {subtitle && (
-        <p className="mt-1 text-xs text-muted">{subtitle}</p>
+        <p className="mt-1.5 text-xs text-muted">{subtitle}</p>
       )}
     </div>
   );
